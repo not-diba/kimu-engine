@@ -9,10 +9,26 @@ datasource db {
 }
 
 model Recipe {
-  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name      String?  @db.VarChar(255)
-  duration  Int
-  createdBy String?  @db.VarChar(255)
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  updatedAt DateTime @default(now()) @db.Timestamp(6)
+  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name         String?  @db.VarChar(255)
+  duration     Int
+  instructions String   @db.Text
+  createdBy    String?  @db.VarChar(255)
+  createdAt    DateTime @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime @default(now()) @db.Timestamp(6)
+}
+
+enum PaymentStatus {
+  Complete
+  Pending
+  Failed
+}
+
+model Payment {
+  id        String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  amount    Int
+  method    String        @db.VarChar(255)
+  status    PaymentStatus
+  createdAt DateTime      @default(now()) @db.Timestamp(6)
+  updatedAt DateTime      @default(now()) @db.Timestamp(6)
 }

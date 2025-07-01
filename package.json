@@ -5,10 +5,11 @@
     "dev": "bun src/server.ts",
     "start": "node dist/server",
     "clean": "rm -rf dist",
-    "build": "bun -s run clean && bun -s run generate && tsc",
-    "generate": "bun -s run generate:prisma && bun -s run generate:nexus",
+    "build": "bun run clean && bun run generate && tsc",
+    "generate": "bun run generate:prisma && bun run generate:nexus",
     "generate:prisma": "prisma generate",
-    "generate:nexus": "ts-node --transpile-only src/schema"
+    "generate:nexus": "bun src/schema.ts",
+    "migrate": "bash -c 'read -p \"Migration name: \" name; bunx prisma migrate dev --name \"$(date +%Y%m%d-%H%M)-$name\"'"
   },
   "prettier": {
     "semi": false,
@@ -28,8 +29,5 @@
     "ts-node": "10.9.2",
     "ts-node-dev": "2.0.0",
     "typescript": "5.8.2"
-  },
-  "prisma": {
-    "seed": "ts-node --transpile-only prisma/seed.ts"
   }
 }
