@@ -2,7 +2,7 @@
   "name": "kimu-engine",
   "type": "module",
   "scripts": {
-    "dev": "bun src/server.ts",
+    "dev": "bun --watch src/server.ts generated",
     "start": "node dist/server",
     "clean": "rm -rf dist",
     "build": "bun run clean && bun run generate && tsc",

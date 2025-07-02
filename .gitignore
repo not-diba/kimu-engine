@@ -175,5 +175,6 @@ dist
 .DS_Store
 
 /generated/prisma
+/src/logs
 
 bun.lockb
