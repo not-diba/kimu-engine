@@ -9,14 +9,17 @@ datasource db {
 }
 
 model Recipe {
-  id           String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name         String?     @db.VarChar(255)
-  duration     Int
-  instructions String      @db.Text
-  createdBy    String?     @db.VarChar(255)
-  createdAt    DateTime    @default(now()) @db.Timestamp(6)
-  updatedAt    DateTime    @default(now()) @db.Timestamp(6)
-  Favourite    Favourite[]
+  id               String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name             String?            @db.VarChar(255)
+  duration         Int
+  instructions     String             @db.Text
+  createdBy        String?            @db.VarChar(255)
+  createdAt        DateTime           @default(now()) @db.Timestamp(6)
+  updatedAt        DateTime           @default(now()) @db.Timestamp(6)
+  Favourite        Favourite[]
+  RecipeCategory   RecipeCategory[]
+  RecipeIngredient RecipeIngredient[]
+  OrderItem        OrderItem[]
 }
 
 enum PaymentStatus {
@@ -59,12 +62,13 @@ model User {
 }
 
 model Ingredient {
-  id           String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name         String @db.VarChar(255)
-  type         String @db.VarChar(255)
-  defaultUnit  String @db.VarChar(255)
-  basePrice    Float
-  baseQuantity Float
+  id               String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name             String             @db.VarChar(255)
+  type             String             @db.VarChar(255)
+  defaultUnit      String             @db.VarChar(255)
+  basePrice        Float
+  baseQuantity     Float
+  RecipeIngredient RecipeIngredient[]
 }
 
 enum BuildingType {
@@ -82,7 +86,7 @@ model Address {
   buildingName   String?      @db.VarChar(255)
   unitNumber     String?      @db.VarChar(255)
   additionalInfo String?      @db.Text
-  user           User         @relation(fields: [userId], references: [id])
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String       @db.Uuid
   orders         Order[]
 }
@@ -106,22 +110,65 @@ model Order {
   payment   Payment @relation(fields: [paymentId], references: [id])
   paymentId String  @unique @db.Uuid
 
-  address   Address? @relation(fields: [addressId], references: [id])
-  addressId String?  @db.Uuid
+  address   Address?    @relation(fields: [addressId], references: [id])
+  addressId String?     @db.Uuid
+  OrderItem OrderItem[]
 }
 
 model Favourite {
   id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   createdAt DateTime @default(now()) @db.Timestamp(6)
 
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String? @db.Uuid
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.Uuid
 
-  Recipe   Recipe? @relation(fields: [recipeId], references: [id])
-  recipeId String? @db.Uuid
+  Recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipeId String @db.Uuid
 }
 
 model Category {
+  id             String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name           String           @db.VarChar(255)
+  RecipeCategory RecipeCategory[]
+}
+
+model RecipeCategory {
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String @db.Uuid
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @db.Uuid
+
+  @@id([recipeId, categoryId])
+}
+
+model RecipeIngredient {
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String @db.Uuid
+
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredientId String     @db.Uuid
+
+  quantity Float
+  unit     String
+
+  @@id([recipeId, ingredientId])
+}
+
+model OrderItem {
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String @db.Uuid
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @db.Uuid
+
+  quantity Float
+  price    Float
+
+  @@id([recipeId, orderId])
+}
+
+model Promotions {
   id   String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name String @db.VarChar(255)
+  name String @db.Text
 }
