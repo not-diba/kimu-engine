@@ -6,8 +6,9 @@ export const Recipe = objectType({
     t.nonNull.string('id')
     t.string('name')
     t.nonNull.int('duration')
+    t.nonNull.string('instructions')
     t.string('createdBy')
-    t.nonNull.field('createdAt', { type: 'String' })
-    t.nonNull.field('updatedAt', { type: 'String' })
+    t.nonNull.dateTime('createdAt')
+    t.nonNull.dateTime('updatedAt')
   },
 })

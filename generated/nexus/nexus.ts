@@ -5,8 +5,23 @@
 
 
 import type { Context } from "./../../src/context"
-
-
+import type { core } from "nexus"
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    dateTime<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "DateTime";
+  }
+}
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    dateTime<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
+  }
+}
 
 
 declare global {
@@ -25,17 +40,20 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  DateTime: any
 }
 
 export interface NexusGenObjects {
+  Mutation: {};
   Query: {};
   Recipe: { // root type
-    createdAt: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     createdBy?: string | null; // String
     duration: number; // Int!
     id: string; // String!
+    instructions: string; // String!
     name?: string | null; // String
-    updatedAt: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
 }
 
@@ -50,34 +68,50 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Mutation: { // field return type
+    createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+  }
   Query: { // field return type
     recipes: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
   }
   Recipe: { // field return type
-    createdAt: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     createdBy: string | null; // String
     duration: number; // Int!
     id: string; // String!
+    instructions: string; // String!
     name: string | null; // String
-    updatedAt: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Mutation: { // field return type name
+    createRecipe: 'Recipe'
+  }
   Query: { // field return type name
     recipes: 'Recipe'
   }
   Recipe: { // field return type name
-    createdAt: 'String'
+    createdAt: 'DateTime'
     createdBy: 'String'
     duration: 'Int'
     id: 'String'
+    instructions: 'String'
     name: 'String'
-    updatedAt: 'String'
+    updatedAt: 'DateTime'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createRecipe: { // args
+      createdBy?: string | null; // String
+      duration: number; // Int!
+      instructions: string; // String!
+      name: string; // String!
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {

@@ -1,14 +1,20 @@
 process.env.DEBUG = 'nexus:typegen'
 
-import { makeSchema } from 'nexus'
-import { Recipe } from './models/Recipe'
-import { RecipeQuery } from './queries/RecipeQuery'
+import { asNexusMethod, makeSchema } from 'nexus'
+import { RecipeQuery } from './queries'
+import { Recipe } from './models'
+import { CreateRecipe } from './mutations'
+import { GraphQLDateTime } from 'graphql-scalars'
+
+const GQLDate = asNexusMethod(GraphQLDateTime, 'dateTime')
 
 
 export const schema = makeSchema({
     types: [
+        GQLDate,
         Recipe,
-        RecipeQuery
+        RecipeQuery,
+        CreateRecipe
     ],
     outputs: {
         schema: __dirname + '/../generated/nexus/schema.graphql',
