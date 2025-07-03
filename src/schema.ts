@@ -1,9 +1,7 @@
-process.env.DEBUG = 'nexus:typegen'
-
 import { asNexusMethod, makeSchema } from 'nexus'
-import { GetRecipe, GetRecipes } from './queries'
-import { Category, Recipe } from './models'
-import { CreateCategory, CreateRecipe, DeleteRecipe, UpdateRecipe } from './mutations'
+import { GetCategories, GetRecipe, GetRecipes, GetRecipesInACategory } from './queries'
+import { Category, Recipe, RecipeCategoryInput } from './models'
+import { AddRecipeToCategory, CreateCategory, CreateRecipe, DeleteRecipe, UpdateRecipe } from './mutations'
 import { GraphQLDateTime } from 'graphql-scalars'
 
 const GQLDate = asNexusMethod(GraphQLDateTime, 'dateTime')
@@ -19,7 +17,11 @@ export const schema = makeSchema({
         DeleteRecipe,
         GetRecipe,
         Category,
-        CreateCategory
+        CreateCategory,
+        GetCategories,
+        RecipeCategoryInput,
+        AddRecipeToCategory,
+        GetRecipesInACategory
     ],
     outputs: {
         schema: __dirname + '/../generated/nexus/schema.graphql',

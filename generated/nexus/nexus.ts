@@ -29,6 +29,10 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  RecipeCategoryInput: { // input type
+    categoryIds: string[]; // [String!]!
+    recipeIds: string[]; // [String!]!
+  }
 }
 
 export interface NexusGenEnums {
@@ -77,16 +81,20 @@ export interface NexusGenFieldTypes {
     name: string; // String!
   }
   Mutation: { // field return type
+    addRecipeToCategory: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
     createCategory: NexusGenRootTypes['Category'] | null; // Category
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     deleteRecipe: string | null; // String
     updateRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Query: { // field return type
+    categories: Array<NexusGenRootTypes['Category'] | null> | null; // [Category]
+    getRecipesInACategory: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
     recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     recipes: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
   }
   Recipe: { // field return type
+    categories: Array<NexusGenRootTypes['Category'] | null> | null; // [Category]
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     createdBy: string | null; // String
     duration: number; // Int!
@@ -103,16 +111,20 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
   }
   Mutation: { // field return type name
+    addRecipeToCategory: 'Recipe'
     createCategory: 'Category'
     createRecipe: 'Recipe'
     deleteRecipe: 'String'
     updateRecipe: 'Recipe'
   }
   Query: { // field return type name
+    categories: 'Category'
+    getRecipesInACategory: 'Recipe'
     recipe: 'Recipe'
     recipes: 'Recipe'
   }
   Recipe: { // field return type name
+    categories: 'Category'
     createdAt: 'DateTime'
     createdBy: 'String'
     duration: 'Int'
@@ -125,6 +137,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    addRecipeToCategory: { // args
+      input: NexusGenInputs['RecipeCategoryInput']; // RecipeCategoryInput!
+    }
     createCategory: { // args
       name: string; // String!
     }
@@ -146,6 +161,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    getRecipesInACategory: { // args
+      categoryId: string; // String!
+    }
     recipe: { // args
       recipeId: string; // String!
     }
@@ -160,7 +178,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = never;
 

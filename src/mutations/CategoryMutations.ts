@@ -1,4 +1,4 @@
-import { mutationField, nonNull, stringArg } from "nexus";
+import { arg, list, mutationField, nonNull, stringArg } from "nexus";
 import type { Context } from "../context";
 
 export const CreateCategory = mutationField('createCategory', {
@@ -7,12 +7,37 @@ export const CreateCategory = mutationField('createCategory', {
         name: nonNull(stringArg())
     },
     async resolve(_, args, ctx: Context) {
-        const category = await ctx.prisma.category.create({
+        return await ctx.prisma.category.create({
             data: {
                 name: args.name
             }
         });
-        return category;
     }
+});
 
+export const AddRecipeToCategory = mutationField('addRecipeToCategory', {
+    type: list('Recipe'),
+    args: {
+        input: nonNull(arg({ type: 'RecipeCategoryInput' })),
+    },
+    async resolve(_, { input }, ctx: Context) {
+        const { recipeIds, categoryIds } = input;
+
+        const updatedRecipes = await Promise.all(
+            recipeIds.map(recipeId =>
+                ctx.prisma.recipe.update({
+                    where: { id: recipeId },
+                    data: {
+                        RecipeCategory: {
+                            create: categoryIds.map(categoryId => ({
+                                category: { connect: { id: categoryId } }
+                            }))
+                        }
+                    }
+                })
+            )
+        );
+
+        return updatedRecipes;
+    }
 });

@@ -1,4 +1,5 @@
 import { objectType } from 'nexus'
+import type { Context } from '../context'
 
 export const Recipe = objectType({
   name: 'Recipe',
@@ -10,5 +11,16 @@ export const Recipe = objectType({
     t.string('createdBy')
     t.nonNull.dateTime('createdAt')
     t.nonNull.dateTime('updatedAt')
+    t.list.field('categories', {
+      type: 'Category',
+      async resolve(recipe, _, ctx: Context) {
+        const recipeCategories = await ctx.prisma.recipeCategory.findMany({
+          where: { recipeId: recipe.id },
+          include: { category: true }
+        });
+
+        return recipeCategories.map(rc => rc.category)
+      }
+    })
   },
 })

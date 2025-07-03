@@ -128,7 +128,7 @@ model Favourite {
 
 model Category {
   id             String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name           String           @db.VarChar(255)
+  name           String           @unique @db.VarChar(255)
   RecipeCategory RecipeCategory[]
 }
 

@@ -13,6 +13,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
+  addRecipeToCategory(input: RecipeCategoryInput!): [Recipe]
   createCategory(name: String!): Category
   createRecipe(createdBy: String, duration: Int!, instructions: String!, name: String!): Recipe
   deleteRecipe(recipeId: String!): String
@@ -20,11 +21,14 @@ type Mutation {
 }
 
 type Query {
+  categories: [Category]
+  getRecipesInACategory(categoryId: String!): [Recipe]
   recipe(recipeId: String!): Recipe
   recipes: [Recipe]
 }
 
 type Recipe {
+  categories: [Category]
   createdAt: DateTime!
   createdBy: String
   duration: Int!
@@ -32,4 +36,9 @@ type Recipe {
   instructions: String!
   name: String
   updatedAt: DateTime!
+}
+
+input RecipeCategoryInput {
+  categoryIds: [String!]!
+  recipeIds: [String!]!
 }
