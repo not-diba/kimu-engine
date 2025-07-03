@@ -44,6 +44,10 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Category: { // root type
+    id: string; // String!
+    name: string; // String!
+  }
   Mutation: {};
   Query: {};
   Recipe: { // root type
@@ -68,10 +72,18 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Category: { // field return type
+    id: string; // String!
+    name: string; // String!
+  }
   Mutation: { // field return type
+    createCategory: NexusGenRootTypes['Category'] | null; // Category
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    deleteRecipe: string | null; // String
+    updateRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Query: { // field return type
+    recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     recipes: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
   }
   Recipe: { // field return type
@@ -86,10 +98,18 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Category: { // field return type name
+    id: 'String'
+    name: 'String'
+  }
   Mutation: { // field return type name
+    createCategory: 'Category'
     createRecipe: 'Recipe'
+    deleteRecipe: 'String'
+    updateRecipe: 'Recipe'
   }
   Query: { // field return type name
+    recipe: 'Recipe'
     recipes: 'Recipe'
   }
   Recipe: { // field return type name
@@ -105,11 +125,29 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createCategory: { // args
+      name: string; // String!
+    }
     createRecipe: { // args
       createdBy?: string | null; // String
       duration: number; // Int!
       instructions: string; // String!
       name: string; // String!
+    }
+    deleteRecipe: { // args
+      recipeId: string; // String!
+    }
+    updateRecipe: { // args
+      createdBy?: string | null; // String
+      duration?: number | null; // Int
+      instructions?: string | null; // String
+      name?: string | null; // String
+      recipeId: string; // String!
+    }
+  }
+  Query: {
+    recipe: { // args
+      recipeId: string; // String!
     }
   }
 }
