@@ -1,8 +1,9 @@
 import { asNexusMethod, makeSchema } from 'nexus'
 import { GetCategories, GetRecipe, GetRecipes, GetRecipesInACategory } from './queries'
-import { Category, Recipe, RecipeCategoryInput } from './models'
+import { Address, AddressInput, AddressUpdateInput, AuthProviderEnum, BuildingTypeEnum, Category, Ingredient, IngredientDefaultUnitEnum, IngredientTypeEnum, IngredientUnitEnum, Payment, PaymentInput, PaymentMethodEnum, PaymentStatusEnum, Recipe, RecipeCategoryInput, RecipeIngredient, RecipeIngredientInput, User } from './models'
 import { AddRecipeToCategory, CreateCategory, CreateRecipe, DeleteRecipe, UpdateRecipe } from './mutations'
 import { GraphQLDateTime } from 'graphql-scalars'
+import { CreateUser, DeleteUser, UpdateUser } from './mutations/UserMutations'
 
 const GQLDate = asNexusMethod(GraphQLDateTime, 'dateTime')
 
@@ -21,7 +22,26 @@ export const schema = makeSchema({
         GetCategories,
         RecipeCategoryInput,
         AddRecipeToCategory,
-        GetRecipesInACategory
+        GetRecipesInACategory,
+        User,
+        AuthProviderEnum,
+        CreateUser,
+        UpdateUser,
+        DeleteUser,
+        BuildingTypeEnum,
+        AddressInput,
+        AddressUpdateInput,
+        Address,
+        Payment,
+        PaymentInput,
+        PaymentStatusEnum,
+        PaymentMethodEnum,
+        IngredientTypeEnum,
+        IngredientDefaultUnitEnum,
+        Ingredient,
+        RecipeIngredient,
+        IngredientUnitEnum,
+        RecipeIngredientInput
     ],
     outputs: {
         schema: __dirname + '/../generated/nexus/schema.graphql',

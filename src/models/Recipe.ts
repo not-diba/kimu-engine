@@ -22,5 +22,14 @@ export const Recipe = objectType({
         return recipeCategories.map(rc => rc.category)
       }
     })
+    t.list.field('ingredients', {
+      type: 'RecipeIngredient',
+      async resolve(recipe, _, ctx: Context) {
+        return ctx.prisma.recipeIngredient.findMany({
+          where: { recipeId: recipe.id },
+          include: { ingredient: true }
+        });
+      }
+    })
   },
 })

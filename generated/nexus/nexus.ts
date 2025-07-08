@@ -29,13 +29,49 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  AddressInput: { // input type
+    additionalInfo?: string | null; // String
+    buildingName: string; // String!
+    buildingType: NexusGenEnums['BuildingType']; // BuildingType!
+    city: string; // String!
+    country: string; // String!
+    unitNumber?: string | null; // String
+  }
+  AddressUpdateInput: { // input type
+    additionalInfo?: string | null; // String
+    buildingName?: string | null; // String
+    buildingType?: NexusGenEnums['BuildingType'] | null; // BuildingType
+    city?: string | null; // String
+    country?: string | null; // String
+    unitNumber?: string | null; // String
+  }
+  PaymentInput: { // input type
+    amount: string; // String!
+    method: NexusGenEnums['PaymentMethod']; // PaymentMethod!
+  }
   RecipeCategoryInput: { // input type
     categoryIds: string[]; // [String!]!
     recipeIds: string[]; // [String!]!
   }
+  RecipeIngredientInput: { // input type
+    basePrice: number; // Float!
+    baseQuantity: number; // Float!
+    defaultUnit: NexusGenEnums['DefaultUnit']; // DefaultUnit!
+    name: string; // String!
+    quantity: number; // Float!
+    type: NexusGenEnums['IngredientType']; // IngredientType!
+    unit: NexusGenEnums['Unit']; // Unit!
+  }
 }
 
 export interface NexusGenEnums {
+  AuthProvider: "Apple" | "Google" | "Meta" | "TikTok"
+  BuildingType: "Apartment" | "Hotel" | "House" | "Office" | "Other"
+  DefaultUnit: "can" | "clove" | "g" | "ml" | "pack" | "piece" | "pinch" | "slice"
+  IngredientType: "Dairy" | "Grain" | "Liquid" | "Meat" | "Other" | "Spice" | "Vegetable"
+  PaymentMethod: "Card" | "Mobile"
+  PaymentStatus: "Complete" | "Error" | "Failed" | "Pending"
+  Unit: "can" | "clove" | "cup" | "g" | "kg" | "l" | "ml" | "pack" | "piece" | "pinch" | "slice" | "tbsp" | "tsp"
 }
 
 export interface NexusGenScalars {
@@ -48,11 +84,33 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Address: { // root type
+    additionalInfo?: string | null; // String
+    buildingName: string; // String!
+    buildingType: NexusGenEnums['BuildingType']; // BuildingType!
+    city: string; // String!
+    country: string; // String!
+    unitNumber?: string | null; // String
+  }
   Category: { // root type
     id: string; // String!
     name: string; // String!
   }
+  Ingredient: { // root type
+    basePrice: number; // Float!
+    baseQuantity: number; // Float!
+    defaultUnit: NexusGenEnums['DefaultUnit']; // DefaultUnit!
+    name: string; // String!
+    type: NexusGenEnums['IngredientType']; // IngredientType!
+  }
   Mutation: {};
+  Payment: { // root type
+    amount: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    method: NexusGenEnums['PaymentMethod']; // PaymentMethod!
+    status: NexusGenEnums['PaymentStatus']; // PaymentStatus!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
   Query: {};
   Recipe: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -61,6 +119,22 @@ export interface NexusGenObjects {
     id: string; // String!
     instructions: string; // String!
     name?: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  RecipeIngredient: { // root type
+    ingredient: NexusGenRootTypes['Ingredient']; // Ingredient!
+    quantity: number; // Float!
+    unit: NexusGenEnums['Unit']; // Unit!
+  }
+  User: { // root type
+    authProvider: NexusGenEnums['AuthProvider']; // AuthProvider!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    email?: string | null; // String
+    id: string; // String!
+    name: string; // String!
+    phoneNumber: string; // String!
+    profileImg?: string | null; // String
+    providerId: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
 }
@@ -73,19 +147,44 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Address: { // field return type
+    additionalInfo: string | null; // String
+    buildingName: string; // String!
+    buildingType: NexusGenEnums['BuildingType']; // BuildingType!
+    city: string; // String!
+    country: string; // String!
+    unitNumber: string | null; // String
+  }
   Category: { // field return type
     id: string; // String!
     name: string; // String!
+  }
+  Ingredient: { // field return type
+    basePrice: number; // Float!
+    baseQuantity: number; // Float!
+    defaultUnit: NexusGenEnums['DefaultUnit']; // DefaultUnit!
+    name: string; // String!
+    type: NexusGenEnums['IngredientType']; // IngredientType!
   }
   Mutation: { // field return type
     addRecipeToCategory: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
     createCategory: NexusGenRootTypes['Category'] | null; // Category
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    createUser: NexusGenRootTypes['User'] | null; // User
     deleteRecipe: string | null; // String
+    deleteUser: string | null; // String
     updateRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    updateUser: NexusGenRootTypes['User'] | null; // User
+  }
+  Payment: { // field return type
+    amount: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    method: NexusGenEnums['PaymentMethod']; // PaymentMethod!
+    status: NexusGenEnums['PaymentStatus']; // PaymentStatus!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Query: { // field return type
     categories: Array<NexusGenRootTypes['Category'] | null> | null; // [Category]
@@ -99,23 +198,66 @@ export interface NexusGenFieldTypes {
     createdBy: string | null; // String
     duration: number; // Int!
     id: string; // String!
+    ingredients: Array<NexusGenRootTypes['RecipeIngredient'] | null> | null; // [RecipeIngredient]
     instructions: string; // String!
     name: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  RecipeIngredient: { // field return type
+    ingredient: NexusGenRootTypes['Ingredient']; // Ingredient!
+    quantity: number; // Float!
+    unit: NexusGenEnums['Unit']; // Unit!
+  }
+  User: { // field return type
+    addresses: Array<NexusGenRootTypes['Address'] | null> | null; // [Address]
+    authProvider: NexusGenEnums['AuthProvider']; // AuthProvider!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    email: string | null; // String
+    id: string; // String!
+    name: string; // String!
+    phoneNumber: string; // String!
+    profileImg: string | null; // String
+    providerId: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Address: { // field return type name
+    additionalInfo: 'String'
+    buildingName: 'String'
+    buildingType: 'BuildingType'
+    city: 'String'
+    country: 'String'
+    unitNumber: 'String'
+  }
   Category: { // field return type name
     id: 'String'
     name: 'String'
+  }
+  Ingredient: { // field return type name
+    basePrice: 'Float'
+    baseQuantity: 'Float'
+    defaultUnit: 'DefaultUnit'
+    name: 'String'
+    type: 'IngredientType'
   }
   Mutation: { // field return type name
     addRecipeToCategory: 'Recipe'
     createCategory: 'Category'
     createRecipe: 'Recipe'
+    createUser: 'User'
     deleteRecipe: 'String'
+    deleteUser: 'String'
     updateRecipe: 'Recipe'
+    updateUser: 'User'
+  }
+  Payment: { // field return type name
+    amount: 'String'
+    createdAt: 'DateTime'
+    method: 'PaymentMethod'
+    status: 'PaymentStatus'
+    updatedAt: 'DateTime'
   }
   Query: { // field return type name
     categories: 'Category'
@@ -129,8 +271,26 @@ export interface NexusGenFieldTypeNames {
     createdBy: 'String'
     duration: 'Int'
     id: 'String'
+    ingredients: 'RecipeIngredient'
     instructions: 'String'
     name: 'String'
+    updatedAt: 'DateTime'
+  }
+  RecipeIngredient: { // field return type name
+    ingredient: 'Ingredient'
+    quantity: 'Float'
+    unit: 'Unit'
+  }
+  User: { // field return type name
+    addresses: 'Address'
+    authProvider: 'AuthProvider'
+    createdAt: 'DateTime'
+    email: 'String'
+    id: 'String'
+    name: 'String'
+    phoneNumber: 'String'
+    profileImg: 'String'
+    providerId: 'String'
     updatedAt: 'DateTime'
   }
 }
@@ -144,20 +304,42 @@ export interface NexusGenArgTypes {
       name: string; // String!
     }
     createRecipe: { // args
+      categories?: string[] | null; // [String!]
       createdBy?: string | null; // String
       duration: number; // Int!
+      ingredients?: NexusGenInputs['RecipeIngredientInput'][] | null; // [RecipeIngredientInput!]
       instructions: string; // String!
       name: string; // String!
+    }
+    createUser: { // args
+      address?: NexusGenInputs['AddressInput'] | null; // AddressInput
+      authProvider: NexusGenEnums['AuthProvider']; // AuthProvider!
+      email?: string | null; // String
+      name: string; // String!
+      phoneNumber: string; // String!
+      profileImg?: string | null; // String
+      providerId: string; // String!
     }
     deleteRecipe: { // args
       recipeId: string; // String!
     }
+    deleteUser: { // args
+      userId: string; // String!
+    }
     updateRecipe: { // args
       createdBy?: string | null; // String
       duration?: number | null; // Int
+      ingredients?: NexusGenInputs['RecipeIngredientInput'][] | null; // [RecipeIngredientInput!]
       instructions?: string | null; // String
       name?: string | null; // String
       recipeId: string; // String!
+    }
+    updateUser: { // args
+      address?: NexusGenInputs['AddressUpdateInput'] | null; // AddressUpdateInput
+      email?: string | null; // String
+      name?: string | null; // String
+      phoneNumber?: string | null; // String
+      userId: string; // String!
     }
   }
   Query: {
@@ -180,7 +362,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 

@@ -2,6 +2,48 @@
 ### Do not make changes to this file directly
 
 
+type Address {
+  additionalInfo: String
+  buildingName: String!
+  buildingType: BuildingType!
+  city: String!
+  country: String!
+  unitNumber: String
+}
+
+input AddressInput {
+  additionalInfo: String
+  buildingName: String!
+  buildingType: BuildingType!
+  city: String!
+  country: String!
+  unitNumber: String
+}
+
+input AddressUpdateInput {
+  additionalInfo: String
+  buildingName: String
+  buildingType: BuildingType
+  city: String
+  country: String
+  unitNumber: String
+}
+
+enum AuthProvider {
+  Apple
+  Google
+  Meta
+  TikTok
+}
+
+enum BuildingType {
+  Apartment
+  Hotel
+  House
+  Office
+  Other
+}
+
 type Category {
   id: String!
   name: String!
@@ -12,12 +54,69 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+enum DefaultUnit {
+  can
+  clove
+  g
+  ml
+  pack
+  piece
+  pinch
+  slice
+}
+
+type Ingredient {
+  basePrice: Float!
+  baseQuantity: Float!
+  defaultUnit: DefaultUnit!
+  name: String!
+  type: IngredientType!
+}
+
+enum IngredientType {
+  Dairy
+  Grain
+  Liquid
+  Meat
+  Other
+  Spice
+  Vegetable
+}
+
 type Mutation {
   addRecipeToCategory(input: RecipeCategoryInput!): [Recipe]
   createCategory(name: String!): Category
-  createRecipe(createdBy: String, duration: Int!, instructions: String!, name: String!): Recipe
+  createRecipe(categories: [String!], createdBy: String, duration: Int!, ingredients: [RecipeIngredientInput!], instructions: String!, name: String!): Recipe
+  createUser(address: AddressInput, authProvider: AuthProvider!, email: String, name: String!, phoneNumber: String!, profileImg: String, providerId: String!): User
   deleteRecipe(recipeId: String!): String
-  updateRecipe(createdBy: String, duration: Int, instructions: String, name: String, recipeId: String!): Recipe
+  deleteUser(userId: String!): String
+  updateRecipe(createdBy: String, duration: Int, ingredients: [RecipeIngredientInput!], instructions: String, name: String, recipeId: String!): Recipe
+  updateUser(address: AddressUpdateInput, email: String, name: String, phoneNumber: String, userId: String!): User
+}
+
+type Payment {
+  amount: String!
+  createdAt: DateTime!
+  method: PaymentMethod!
+  status: PaymentStatus!
+  updatedAt: DateTime!
+}
+
+input PaymentInput {
+  amount: String!
+  method: PaymentMethod!
+}
+
+enum PaymentMethod {
+  Card
+  Mobile
+}
+
+enum PaymentStatus {
+  Complete
+  Error
+  Failed
+  Pending
 }
 
 type Query {
@@ -33,6 +132,7 @@ type Recipe {
   createdBy: String
   duration: Int!
   id: String!
+  ingredients: [RecipeIngredient]
   instructions: String!
   name: String
   updatedAt: DateTime!
@@ -41,4 +141,49 @@ type Recipe {
 input RecipeCategoryInput {
   categoryIds: [String!]!
   recipeIds: [String!]!
+}
+
+type RecipeIngredient {
+  ingredient: Ingredient!
+  quantity: Float!
+  unit: Unit!
+}
+
+input RecipeIngredientInput {
+  basePrice: Float!
+  baseQuantity: Float!
+  defaultUnit: DefaultUnit!
+  name: String!
+  quantity: Float!
+  type: IngredientType!
+  unit: Unit!
+}
+
+enum Unit {
+  can
+  clove
+  cup
+  g
+  kg
+  l
+  ml
+  pack
+  piece
+  pinch
+  slice
+  tbsp
+  tsp
+}
+
+type User {
+  addresses: [Address]
+  authProvider: AuthProvider!
+  createdAt: DateTime!
+  email: String
+  id: String!
+  name: String!
+  phoneNumber: String!
+  profileImg: String
+  providerId: String!
+  updatedAt: DateTime!
 }
