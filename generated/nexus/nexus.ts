@@ -92,6 +92,11 @@ export interface NexusGenObjects {
     country: string; // String!
     unitNumber?: string | null; // String
   }
+  AuthResponse: { // root type
+    message: string; // String!
+    token?: string | null; // String
+    user?: NexusGenRootTypes['User'] | null; // User
+  }
   Category: { // root type
     id: string; // String!
     name: string; // String!
@@ -158,6 +163,11 @@ export interface NexusGenFieldTypes {
     country: string; // String!
     unitNumber: string | null; // String
   }
+  AuthResponse: { // field return type
+    message: string; // String!
+    token: string | null; // String
+    user: NexusGenRootTypes['User'] | null; // User
+  }
   Category: { // field return type
     id: string; // String!
     name: string; // String!
@@ -171,6 +181,7 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     addRecipeToCategory: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
+    authenticateUser: NexusGenRootTypes['AuthResponse'] | null; // AuthResponse
     createCategory: NexusGenRootTypes['Category'] | null; // Category
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     createUser: NexusGenRootTypes['User'] | null; // User
@@ -231,6 +242,11 @@ export interface NexusGenFieldTypeNames {
     country: 'String'
     unitNumber: 'String'
   }
+  AuthResponse: { // field return type name
+    message: 'String'
+    token: 'String'
+    user: 'User'
+  }
   Category: { // field return type name
     id: 'String'
     name: 'String'
@@ -244,6 +260,7 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     addRecipeToCategory: 'Recipe'
+    authenticateUser: 'AuthResponse'
     createCategory: 'Category'
     createRecipe: 'Recipe'
     createUser: 'User'
@@ -299,6 +316,9 @@ export interface NexusGenArgTypes {
   Mutation: {
     addRecipeToCategory: { // args
       input: NexusGenInputs['RecipeCategoryInput']; // RecipeCategoryInput!
+    }
+    authenticateUser: { // args
+      idToken: string; // String!
     }
     createCategory: { // args
       name: string; // String!

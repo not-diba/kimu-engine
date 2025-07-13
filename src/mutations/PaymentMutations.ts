@@ -1,4 +1,4 @@
-import { arg, floatArg, mutationField, nonNull } from "nexus";
+import { arg, mutationField, nonNull } from "nexus";
 import type { Context } from "../context";
 import { PaymentStatus } from "../../generated/prisma";
 

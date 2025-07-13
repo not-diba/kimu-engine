@@ -36,6 +36,12 @@ enum AuthProvider {
   TikTok
 }
 
+type AuthResponse {
+  message: String!
+  token: String
+  user: User
+}
+
 enum BuildingType {
   Apartment
   Hotel
@@ -85,6 +91,7 @@ enum IngredientType {
 
 type Mutation {
   addRecipeToCategory(input: RecipeCategoryInput!): [Recipe]
+  authenticateUser(idToken: String!): AuthResponse
   createCategory(name: String!): Category
   createRecipe(categories: [String!], createdBy: String, duration: Int!, ingredients: [RecipeIngredientInput!], instructions: String!, name: String!): Recipe
   createUser(address: AddressInput, authProvider: AuthProvider!, email: String, name: String!, phoneNumber: String!, profileImg: String, providerId: String!): User

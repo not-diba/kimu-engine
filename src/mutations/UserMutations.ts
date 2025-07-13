@@ -47,6 +47,7 @@ export const UpdateUser = mutationField('updateUser', {
         address: arg({ type: 'AddressUpdateInput' })
     },
     async resolve(_, { userId, name, email, phoneNumber, address }, ctx: Context) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data: any = {};
         if (name !== undefined) data.name = name;
         if (email !== undefined) data.email = email;
