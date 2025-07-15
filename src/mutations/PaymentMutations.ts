@@ -8,7 +8,7 @@ export const CreatePayment = mutationField('createPayment', {
         input: nonNull(arg({ type: 'PaymentInput' }))
     },
     async resolve(_, { input }, ctx: Context) {
-        return ctx.prisma.payment.create({
+        return await ctx.prisma.payment.create({
             data: {
                 amount: input.amount,
                 method: input.method,

@@ -14,7 +14,7 @@ export const CreateUser = mutationField('createUser', {
         address: arg({ type: 'AddressInput' })
     },
     async resolve(_, args, ctx: Context) {
-        return ctx.prisma.user.create({
+        return await ctx.prisma.user.create({
             data: {
                 name: args.name,
                 email: args.email,
@@ -69,7 +69,7 @@ export const UpdateUser = mutationField('updateUser', {
             };
         }
 
-        return ctx.prisma.user.update({
+        return await ctx.prisma.user.update({
             where: { id: userId },
             data
         })
@@ -82,7 +82,7 @@ export const DeleteUser = mutationField('deleteUser', {
         userId: nonNull(stringArg()),
     },
     async resolve(_, { userId }, ctx: Context) {
-        ctx.prisma.user.delete({
+        await ctx.prisma.user.delete({
             where: {
                 id: userId
             }

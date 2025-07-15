@@ -79,6 +79,7 @@ export const UpdateRecipe = mutationField('updateRecipe', {
         ingredients: list(nonNull(arg({ type: 'RecipeIngredientInput' })))
     },
     async resolve(_, args, ctx: Context) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data: any = {};
         if (args.name !== undefined) data.name = args.name;
         if (args.duration !== undefined) data.duration = args.duration;

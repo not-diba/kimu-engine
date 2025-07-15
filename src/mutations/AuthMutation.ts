@@ -29,7 +29,6 @@ export const AuthenticateUser = mutationField('authenticateUser', {
 
       const { email, name } = payload;
 
-      console.log('🟢 Google user:', { name, email });
 
       user = await ctx.prisma.user.findFirst({
         where: { email: email! },
