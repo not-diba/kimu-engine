@@ -1,4 +1,4 @@
-import { inputObjectType, objectType } from "nexus";
+import { inputObjectType, objectType } from 'nexus';
 
 export const AddressInput = inputObjectType({
   name: 'AddressInput',
@@ -25,13 +25,13 @@ export const AddressUpdateInput = inputObjectType({
 });
 
 export const Address = objectType({
-    name: 'Address',
-    definition(t) {
-        t.nonNull.string('city');
-        t.nonNull.string('country');
-        t.nonNull.field('buildingType', { type: 'BuildingType' });
-        t.nonNull.string('buildingName');
-        t.string('unitNumber');
-        t.string('additionalInfo');
-    },
-})
+  name: 'Address',
+  definition(t) {
+    t.nonNull.string('city');
+    t.nonNull.string('country');
+    t.nonNull.field('buildingType', { type: 'BuildingType' });
+    t.nonNull.string('buildingName');
+    t.string('unitNumber');
+    t.string('additionalInfo');
+  },
+});

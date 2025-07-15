@@ -37,9 +37,9 @@ enum AuthProvider {
 }
 
 type AuthResponse {
+  accessToken: String
   message: String!
-  token: String
-  user: User
+  userId: String
 }
 
 enum BuildingType {
@@ -94,11 +94,12 @@ type Mutation {
   authenticateUser(idToken: String!): AuthResponse
   createCategory(name: String!): Category
   createRecipe(categories: [String!], createdBy: String, duration: Int!, ingredients: [RecipeIngredientInput!], instructions: String!, name: String!): Recipe
-  createUser(address: AddressInput, authProvider: AuthProvider!, email: String, name: String!, phoneNumber: String!, profileImg: String, providerId: String!): User
+  createUser(address: AddressInput, authProvider: AuthProvider!, email: String!, idToken: String!, name: String, phoneNumber: String, profileImage: String): User
   deleteRecipe(recipeId: String!): String
   deleteUser(userId: String!): String
   updateRecipe(createdBy: String, duration: Int, ingredients: [RecipeIngredientInput!], instructions: String, name: String, recipeId: String!): Recipe
-  updateUser(address: AddressUpdateInput, email: String, name: String, phoneNumber: String, userId: String!): User
+  updateUser(address: AddressUpdateInput, name: String, phoneNumber: String, userId: String!): User
+  verifyUser(phoneNumber: String!, userId: String!): String
 }
 
 type Payment {
@@ -186,11 +187,11 @@ type User {
   addresses: [Address]
   authProvider: AuthProvider!
   createdAt: DateTime!
-  email: String
+  email: String!
   id: String!
-  name: String!
-  phoneNumber: String!
-  profileImg: String
-  providerId: String!
+  idToken: String!
+  name: String
+  phoneNumber: String
+  profileImage: String
   updatedAt: DateTime!
 }

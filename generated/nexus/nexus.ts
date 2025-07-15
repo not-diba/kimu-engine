@@ -93,9 +93,9 @@ export interface NexusGenObjects {
     unitNumber?: string | null; // String
   }
   AuthResponse: { // root type
+    accessToken?: string | null; // String
     message: string; // String!
-    token?: string | null; // String
-    user?: NexusGenRootTypes['User'] | null; // User
+    userId?: string | null; // String
   }
   Category: { // root type
     id: string; // String!
@@ -134,12 +134,12 @@ export interface NexusGenObjects {
   User: { // root type
     authProvider: NexusGenEnums['AuthProvider']; // AuthProvider!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    email?: string | null; // String
+    email: string; // String!
     id: string; // String!
-    name: string; // String!
-    phoneNumber: string; // String!
-    profileImg?: string | null; // String
-    providerId: string; // String!
+    idToken: string; // String!
+    name?: string | null; // String
+    phoneNumber?: string | null; // String
+    profileImage?: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
 }
@@ -164,9 +164,9 @@ export interface NexusGenFieldTypes {
     unitNumber: string | null; // String
   }
   AuthResponse: { // field return type
+    accessToken: string | null; // String
     message: string; // String!
-    token: string | null; // String
-    user: NexusGenRootTypes['User'] | null; // User
+    userId: string | null; // String
   }
   Category: { // field return type
     id: string; // String!
@@ -189,6 +189,7 @@ export interface NexusGenFieldTypes {
     deleteUser: string | null; // String
     updateRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     updateUser: NexusGenRootTypes['User'] | null; // User
+    verifyUser: string | null; // String
   }
   Payment: { // field return type
     amount: string; // String!
@@ -223,12 +224,12 @@ export interface NexusGenFieldTypes {
     addresses: Array<NexusGenRootTypes['Address'] | null> | null; // [Address]
     authProvider: NexusGenEnums['AuthProvider']; // AuthProvider!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    email: string | null; // String
+    email: string; // String!
     id: string; // String!
-    name: string; // String!
-    phoneNumber: string; // String!
-    profileImg: string | null; // String
-    providerId: string; // String!
+    idToken: string; // String!
+    name: string | null; // String
+    phoneNumber: string | null; // String
+    profileImage: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
 }
@@ -243,9 +244,9 @@ export interface NexusGenFieldTypeNames {
     unitNumber: 'String'
   }
   AuthResponse: { // field return type name
+    accessToken: 'String'
     message: 'String'
-    token: 'String'
-    user: 'User'
+    userId: 'String'
   }
   Category: { // field return type name
     id: 'String'
@@ -268,6 +269,7 @@ export interface NexusGenFieldTypeNames {
     deleteUser: 'String'
     updateRecipe: 'Recipe'
     updateUser: 'User'
+    verifyUser: 'String'
   }
   Payment: { // field return type name
     amount: 'String'
@@ -304,10 +306,10 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     email: 'String'
     id: 'String'
+    idToken: 'String'
     name: 'String'
     phoneNumber: 'String'
-    profileImg: 'String'
-    providerId: 'String'
+    profileImage: 'String'
     updatedAt: 'DateTime'
   }
 }
@@ -334,11 +336,11 @@ export interface NexusGenArgTypes {
     createUser: { // args
       address?: NexusGenInputs['AddressInput'] | null; // AddressInput
       authProvider: NexusGenEnums['AuthProvider']; // AuthProvider!
-      email?: string | null; // String
-      name: string; // String!
-      phoneNumber: string; // String!
-      profileImg?: string | null; // String
-      providerId: string; // String!
+      email: string; // String!
+      idToken: string; // String!
+      name?: string | null; // String
+      phoneNumber?: string | null; // String
+      profileImage?: string | null; // String
     }
     deleteRecipe: { // args
       recipeId: string; // String!
@@ -356,9 +358,12 @@ export interface NexusGenArgTypes {
     }
     updateUser: { // args
       address?: NexusGenInputs['AddressUpdateInput'] | null; // AddressUpdateInput
-      email?: string | null; // String
       name?: string | null; // String
       phoneNumber?: string | null; // String
+      userId: string; // String!
+    }
+    verifyUser: { // args
+      phoneNumber: string; // String!
       userId: string; // String!
     }
   }

@@ -1,5 +1,5 @@
-import { extendType, list, nonNull, queryField, stringArg } from 'nexus'
-import type { Context } from '../context'
+import { extendType, list, nonNull, queryField, stringArg } from 'nexus';
+import type { Context } from '../context';
 
 export const GetRecipes = queryField('recipes', {
   type: list('Recipe'),
@@ -15,7 +15,7 @@ export const GetRecipe = queryField('recipe', {
   },
   async resolve(_, arg, ctx: Context) {
     return await ctx.prisma.recipe.findUnique({
-      where: { id: arg.recipeId }
+      where: { id: arg.recipeId },
     });
-  }
+  },
 });

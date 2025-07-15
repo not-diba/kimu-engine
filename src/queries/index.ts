@@ -1,2 +1,2 @@
-export * from './RecipeQueries'
-export * from './CategoryQueries'
+export * from './RecipeQueries';
+export * from './CategoryQueries';
