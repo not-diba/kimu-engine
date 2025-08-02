@@ -30,22 +30,28 @@ export const AuthenticateUser = mutationField('authenticateUser', {
 
       const { email, name, picture } = payload;
 
-      const user = await ctx.prisma.user.upsert({
+      let user = await ctx.prisma.user.findUnique({
         where: { email },
-        update: {
-          profileImage: picture || undefined,
-          name: name || undefined,
-          idToken: idToken,
-          authProvider: 'Google',
-        },
-        create: {
-          email: email!,
-          name: name || undefined,
-          profileImage: picture || undefined,
-          idToken: idToken,
-          authProvider: 'Google',
-        },
       });
+
+      if (!user) {
+        user = await ctx.prisma.user.upsert({
+          where: { email },
+          update: {
+            profileImage: picture || undefined,
+            name: name || undefined,
+            idToken: idToken,
+            authProvider: 'Google',
+          },
+          create: {
+            email: email!,
+            name: name || undefined,
+            profileImage: picture || undefined,
+            idToken: idToken,
+            authProvider: 'Google',
+          },
+        });
+      }
 
       return {
         message: 'User authenticated successfully',

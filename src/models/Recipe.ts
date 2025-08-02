@@ -31,5 +31,16 @@ export const Recipe = objectType({
         });
       },
     });
+    t.nonNull.float('totalPrice', {
+      async resolve(recipe, _, ctx: Context) {
+        const ingredients = await ctx.prisma.recipeIngredient.findMany({
+          where: { recipeId: recipe.id },
+        });
+
+        const total = ingredients.reduce((sum, item) => sum + item.price, 0);
+
+        return Math.round(total * 100) / 100;
+      },
+    });
   },
 });

@@ -11,6 +11,7 @@ datasource db {
 model Recipe {
   id               String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name             String?            @db.VarChar(255)
+  recipeImage      String?            @db.Text
   duration         Int
   instructions     String             @db.Text
   createdBy        String?            @db.VarChar(255)
@@ -30,6 +31,7 @@ enum IngredientType {
   Liquid
   Grain
   Other
+  Carbohydrates
 }
 
 enum DefaultUnit {

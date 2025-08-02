@@ -1,4 +1,4 @@
-import { extendType, list, nonNull, queryField, stringArg } from 'nexus';
+import { list, nonNull, queryField, stringArg } from 'nexus';
 import type { Context } from '../context';
 
 export const GetRecipes = queryField('recipes', {

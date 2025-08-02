@@ -68,7 +68,7 @@ export interface NexusGenEnums {
   AuthProvider: "Apple" | "Google" | "Meta" | "TikTok"
   BuildingType: "Apartment" | "Hotel" | "House" | "Office" | "Other"
   DefaultUnit: "can" | "clove" | "g" | "ml" | "pack" | "piece" | "pinch" | "slice"
-  IngredientType: "Dairy" | "Grain" | "Liquid" | "Meat" | "Other" | "Spice" | "Vegetable"
+  IngredientType: "Carbohydrates" | "Dairy" | "Grain" | "Liquid" | "Meat" | "Other" | "Spice" | "Vegetable"
   PaymentMethod: "Card" | "Mobile"
   PaymentStatus: "Complete" | "Error" | "Failed" | "Pending"
   Unit: "can" | "clove" | "cup" | "g" | "kg" | "l" | "ml" | "pack" | "piece" | "pinch" | "slice" | "tbsp" | "tsp"
@@ -128,6 +128,7 @@ export interface NexusGenObjects {
   }
   RecipeIngredient: { // root type
     ingredient: NexusGenRootTypes['Ingredient']; // Ingredient!
+    price: number; // Float!
     quantity: number; // Float!
     unit: NexusGenEnums['Unit']; // Unit!
   }
@@ -213,10 +214,12 @@ export interface NexusGenFieldTypes {
     ingredients: Array<NexusGenRootTypes['RecipeIngredient'] | null> | null; // [RecipeIngredient]
     instructions: string; // String!
     name: string | null; // String
+    totalPrice: number; // Float!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   RecipeIngredient: { // field return type
     ingredient: NexusGenRootTypes['Ingredient']; // Ingredient!
+    price: number; // Float!
     quantity: number; // Float!
     unit: NexusGenEnums['Unit']; // Unit!
   }
@@ -293,10 +296,12 @@ export interface NexusGenFieldTypeNames {
     ingredients: 'RecipeIngredient'
     instructions: 'String'
     name: 'String'
+    totalPrice: 'Float'
     updatedAt: 'DateTime'
   }
   RecipeIngredient: { // field return type name
     ingredient: 'Ingredient'
+    price: 'Float'
     quantity: 'Float'
     unit: 'Unit'
   }

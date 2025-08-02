@@ -1,8 +1,17 @@
-import { enumType, inputObjectType, nonNull, objectType } from 'nexus';
+import { enumType, inputObjectType, objectType } from 'nexus';
 
 export const IngredientTypeEnum = enumType({
   name: 'IngredientType',
-  members: ['Vegetable', 'Meat', 'Dairy', 'Spice', 'Liquid', 'Grain', 'Other'],
+  members: [
+    'Vegetable',
+    'Meat',
+    'Dairy',
+    'Spice',
+    'Liquid',
+    'Grain',
+    'Other',
+    'Carbohydrates',
+  ],
 });
 
 export const IngredientDefaultUnitEnum = enumType({
@@ -46,6 +55,7 @@ export const RecipeIngredient = objectType({
     t.nonNull.field('ingredient', { type: 'Ingredient' });
     t.nonNull.float('quantity');
     t.nonNull.field('unit', { type: 'Unit' });
+    t.nonNull.float('price');
   },
 });
 

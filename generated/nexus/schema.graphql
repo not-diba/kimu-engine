@@ -80,6 +80,7 @@ type Ingredient {
 }
 
 enum IngredientType {
+  Carbohydrates
   Dairy
   Grain
   Liquid
@@ -143,6 +144,7 @@ type Recipe {
   ingredients: [RecipeIngredient]
   instructions: String!
   name: String
+  totalPrice: Float!
   updatedAt: DateTime!
 }
 
@@ -153,6 +155,7 @@ input RecipeCategoryInput {
 
 type RecipeIngredient {
   ingredient: Ingredient!
+  price: Float!
   quantity: Float!
   unit: Unit!
 }
