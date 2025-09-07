@@ -6,6 +6,7 @@ export const CreateRecipe = mutationField('createRecipe', {
   type: 'Recipe',
   args: {
     name: nonNull(stringArg()),
+    Image: nonNull(stringArg()),
     duration: nonNull(intArg()),
     instructions: nonNull(stringArg()),
     createdBy: stringArg(),
@@ -33,6 +34,7 @@ export const CreateRecipe = mutationField('createRecipe', {
     const recipe = await ctx.prisma.recipe.create({
       data: {
         name: args.name,
+        image: args.Image,
         duration: args.duration,
         instructions: args.instructions,
         createdBy: args.createdBy ?? null,

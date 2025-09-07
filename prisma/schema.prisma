@@ -11,7 +11,7 @@ datasource db {
 model Recipe {
   id               String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name             String?            @db.VarChar(255)
-  recipeImage      String?            @db.Text
+  image            String?            @db.Text
   duration         Int
   instructions     String             @db.Text
   createdBy        String?            @db.VarChar(255)
@@ -72,7 +72,7 @@ enum Unit {
 }
 
 model RecipeIngredient {
-  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId String @db.Uuid
 
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
@@ -92,7 +92,7 @@ model Category {
 }
 
 model RecipeCategory {
-  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId String @db.Uuid
 
   category   Category @relation(fields: [categoryId], references: [id])

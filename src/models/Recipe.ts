@@ -6,6 +6,7 @@ export const Recipe = objectType({
   definition(t) {
     t.nonNull.string('id');
     t.string('name');
+    t.string('image');
     t.nonNull.int('duration');
     t.nonNull.string('instructions');
     t.string('createdBy');

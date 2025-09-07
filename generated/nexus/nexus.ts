@@ -122,6 +122,7 @@ export interface NexusGenObjects {
     createdBy?: string | null; // String
     duration: number; // Int!
     id: string; // String!
+    image?: string | null; // String
     instructions: string; // String!
     name?: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
@@ -211,6 +212,7 @@ export interface NexusGenFieldTypes {
     createdBy: string | null; // String
     duration: number; // Int!
     id: string; // String!
+    image: string | null; // String
     ingredients: Array<NexusGenRootTypes['RecipeIngredient'] | null> | null; // [RecipeIngredient]
     instructions: string; // String!
     name: string | null; // String
@@ -293,6 +295,7 @@ export interface NexusGenFieldTypeNames {
     createdBy: 'String'
     duration: 'Int'
     id: 'String'
+    image: 'String'
     ingredients: 'RecipeIngredient'
     instructions: 'String'
     name: 'String'
@@ -331,6 +334,7 @@ export interface NexusGenArgTypes {
       name: string; // String!
     }
     createRecipe: { // args
+      Image: string; // String!
       categories?: string[] | null; // [String!]
       createdBy?: string | null; // String
       duration: number; // Int!
@@ -378,6 +382,9 @@ export interface NexusGenArgTypes {
     }
     recipe: { // args
       recipeId: string; // String!
+    }
+    recipes: { // args
+      categoryName?: string | null; // String
     }
   }
 }
