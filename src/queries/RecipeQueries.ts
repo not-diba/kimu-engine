@@ -3,8 +3,26 @@ import type { Context } from '../context';
 
 export const GetRecipes = queryField('recipes', {
   type: list('Recipe'),
-  async resolve(_, __, ctx: Context) {
-    return ctx.prisma.recipe.findMany();
+  args: {
+    categoryName: stringArg(),
+  },
+  async resolve(_, { categoryName }, ctx: Context) {
+    return ctx.prisma.recipe.findMany({
+      where: {
+        ...(categoryName && {
+          RecipeCategory: {
+            some: {
+              category: {
+                name: {
+                  equals: categoryName,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+        }),
+      },
+    });
   },
 });
 

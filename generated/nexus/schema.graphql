@@ -94,7 +94,7 @@ type Mutation {
   addRecipeToCategory(input: RecipeCategoryInput!): [Recipe]
   authenticateUser(idToken: String!): AuthResponse
   createCategory(name: String!): Category
-  createRecipe(categories: [String!], createdBy: String, duration: Int!, ingredients: [RecipeIngredientInput!], instructions: String!, name: String!): Recipe
+  createRecipe(Image: String!, categories: [String!], createdBy: String, duration: Int!, ingredients: [RecipeIngredientInput!], instructions: String!, name: String!): Recipe
   createUser(address: AddressInput, authProvider: AuthProvider!, email: String!, idToken: String!, name: String, phoneNumber: String, profileImage: String): User
   deleteRecipe(recipeId: String!): String
   deleteUser(userId: String!): String
@@ -132,7 +132,7 @@ type Query {
   categories: [Category]
   getRecipesInACategory(categoryId: String!): [Recipe]
   recipe(recipeId: String!): Recipe
-  recipes: [Recipe]
+  recipes(categoryName: String): [Recipe]
 }
 
 type Recipe {
@@ -141,6 +141,7 @@ type Recipe {
   createdBy: String
   duration: Int!
   id: String!
+  image: String
   ingredients: [RecipeIngredient]
   instructions: String!
   name: String
