@@ -131,18 +131,24 @@ enum AuthProvider {
 }
 
 model User {
-  id           String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name         String?      @db.VarChar(255)
-  email        String       @unique @db.VarChar(255)
-  phoneNumber  String?      @db.VarChar(255)
-  profileImage String?
-  authProvider AuthProvider
-  idToken      String
-  createdAt    DateTime     @default(now()) @db.Timestamp(6)
-  updatedAt    DateTime     @default(now()) @db.Timestamp(6)
-  Addresses    Address[]
-  Orders       Order[]
-  Favourites   Favourite[]
+  id            String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name          String?      @db.VarChar(255)
+  email         String       @unique @db.VarChar(255)
+  phoneNumber   String?      @db.VarChar(255)
+  profileImage  String?
+  authProvider  AuthProvider
+  idToken       String
+  createdAt     DateTime     @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime     @default(now()) @db.Timestamp(6)
+  Addresses     Address[]
+  Orders        Order[]
+  Favourites    Favourite[]
+  emailVerified Boolean      @default(false)
+  image         String?
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
 }
 
 enum BuildingType {
@@ -217,4 +223,49 @@ model OrderItem {
 model Promotions {
   id   String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name String @db.Text
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String    @db.Uuid
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("verification")
 }
